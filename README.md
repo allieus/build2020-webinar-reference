@@ -1,6 +1,6 @@
 # Microsoft Build 2020 웹미나
 
-공유링크 : https://bit.ly/build2020-webinar
+공유링크 : https://bit.ly/microsoft-build2020-webinar
 
 ## 참고 프로젝트 : Dog or cat?
 
