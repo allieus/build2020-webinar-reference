@@ -2,11 +2,86 @@
 
 공유링크 : https://bit.ly/build2020-webinar-reference
 
-## 참고 프로젝트 : Dog or cat?
+## Windows에 직접 설치한 Visual Studio Code + Python 개발 환경
+
+### 다양한 파이썬 배포판
+
+1. Microsoft Store를 통한 설치
+2. python.org로부터 다운로드/설치
+3. anaconda.com으로부터 다운로드/설치 => ML을 한다면 추천
+    - Conda Environment를 사용한다면
+        - 보다 손쉬운 라이브러리 설치
+        - 다양한 버전의 파이썬 버전 사용 지원
+    - 물론 파이썬 기본의 venv(가상환경)도 사용 가능
+        - Azure Functions에서는 venv를 사용해야만 합니다.
+
+### 필수 VSCode 확장
+
+1. Python : `ms-python.python`
+2. Azure Functions : `ms-azuretools.vscode-azurefunctions`
+
+### 주의) 파이썬 가상환경을 필히 확인해주세요.
+
+사용하는 가상환경이 선택되어있지 않다면, VSCode 명령 `Python: Select Interpreter`를 통해 선택해주세요. => 많이 삽질하시는 포인트.
+
+![Python Interpreter](./images/python-interpreter.png)
+
+### 추천 라이브러리
+
+파이썬 프로젝트일 경우, Visual Studio Code에서 아래 라이브러리 설치를 제안합니다. 설치해주세요.
+
+주의) 이 라이브러리들은 현재 활성화된 가상환경에 설치됩니다.
+
+1. Style Checker : pylint (디폴트)
+    - 이 외에도 Flake8, mypy 등
+2. Code Formatter : black (설정 필요)
+    - 파이썬 소프트웨어 재단 (PSF)에서 개발
+    - 이 외에도 autopep8, yarf
+
+VSCode에 아래 설정을 적용하면, Save시마다 black이 자동으로 수행되어, 코드 스타일이 맞춰집니다.
+
+```json
+{
+  "editor.formatOnSave": true,
+  "python.formatting.provider": "black"
+}
+```
+
+## 왜 머신러닝 모델을 Azure Functions으로!
+
+### 왜 Azure Functions을 선택하였는가?
+
+1. Serverless 플랫폼
+2. 다양한 언어 지원 : Python, Node.js, Java, .Net, Powershell등을 비롯하여, `커스텀 런타임`도 얹을 수 있어요.
+3. 벌써 버전 3.x => 활발한 개발
+4. 다양한 Triggers 지원 : Blob Storage, Queues, Timer, Webhook 등
+5. Visual Studio Code를 통한 손쉬운 디버깅
+6. 다양한 OS 지원
+    1. Windows, Linux, 그리고 Docker
+    2. 비교) AWS Lambda는 Amazon Linux만을 지원
+
+### Python과 Azure Function
+
+1. Serverless !!!
+2. Azure Functions v1.x에서는 실험적 지원
+    * v3.x부터 GA
+3. 다양한 OS(Windows, Linux, Docker)상에서 우리의 Python 코드를 구동 가능
+    * 크롤링, ML 모델 등
+4. Django/Flask를 구동할 수 있는 WSGI 정식 지원
+    - 공식 Azure 파이썬 라이브러리 [azure-functions-python-library](https://github.com/Azure/azure-functions-python-library/pull/45)에서 지원
+
+
+# 데모: Azure Function으로 샘플 앱을 웹 서비스로 + React 연동
+
+## 레퍼런스 프로젝트 : Dog or cat?
 
 [Azure-Samples/functions-python-tensorflow-tutorial](https://github.com/Azure-Samples/functions-python-tensorflow-tutorial/tree/master/end/classify)
 
 ![dog or cat?](./images/screenshot-1.png)
+
+### Demo로 보여드릴 리액트 화면
+
+![Azure Functions with Tensorflow model](./images/screenshot-6.png)
 
 ### Custom Vision 서비스 -> TF 모델로 내보내기
 
@@ -136,20 +211,6 @@ $ pip install httpie
 $ http --form http://localhost:7071/api/HttpTrigger1 photo@cat.jpg
 ```
 
-### GitHub Codespaces
-
-1. OS : 데비안 9 (stretch)
-2. Python, Azure Functions 확장을 설치합니다.
-3. azure-functions-core-tools 설치
-    - `npm i -g azure-functions-core-tools@3 --unsafe-perm true`
-4. python 명령은 파이썬 2.7, python3 명령은 파이썬 3.5이며, 그 외 버전은 `/opt/python/` 경로에 설치되어있습니다. 새로운 터미널을 열고, 다음과 같이 파이썬 3.7 가상환경을 생성하고 필요한 라이브러리를 설치합니다.
-
-```sh
-$ cd azure-functions
-$ /opt/python/3.7/bin/python -m venv .venv
-$ soruce .venv/bin/activate
-(.venv) $ pip install -r requirements.txt
-```
 
 ## 리액트 프로젝트
 
